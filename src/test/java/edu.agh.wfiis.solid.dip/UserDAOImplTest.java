@@ -1,11 +1,8 @@
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+package edu.agh.wfiis.solid.dip;
+
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.amazonaws.services.dynamodbv2.model.CreateTableRequest;
 import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
-import lombok.Getter;
-import lombok.Setter;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,12 +22,3 @@ public class UserDAOImplTest {
    }
 }
 
-@DynamoDBTable(tableName = "Statistic")
-@Getter @Setter
-class Statistic {
-   @DynamoDBHashKey(attributeName = "name")
-   private String name;
-
-   @DynamoDBRangeKey(attributeName = "value")
-   private int value;
-}
