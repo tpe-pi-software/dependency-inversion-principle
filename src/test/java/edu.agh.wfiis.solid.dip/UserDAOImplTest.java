@@ -16,7 +16,7 @@ public class UserDAOImplTest {
    @Test
    public void validateDBConnection(){
       DynamoDBMapper mapper = new DynamoDBMapper(dynamoDB.getAmazonDynamoDB());
-      CreateTableRequest createTableRequest = mapper.generateCreateTableRequest(Statistic.class);
+      CreateTableRequest createTableRequest = mapper.generateCreateTableRequest(StatisticsTable.class);
       createTableRequest.setProvisionedThroughput(new ProvisionedThroughput(5L, 5L));
       dynamoDB.getAmazonDynamoDB().createTable(createTableRequest);
    }
