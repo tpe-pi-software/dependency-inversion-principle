@@ -15,8 +15,10 @@ import static edu.agh.wfiis.solid.dip.StatisticsTable.VALUE;
 public class StatisticsRepository {
    public static final String TABLE_NAME = "StatisticsTable";
    private Table table;
+   private final Serializing<Statistics> serializer;
 
-   public StatisticsRepository() {
+   public StatisticsRepository(Serializing<Statistics> serializer) {
+      this.serializer = serializer;
       AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard().build();
       DynamoDB dynamoDB = new DynamoDB(client);
 
@@ -24,7 +26,7 @@ public class StatisticsRepository {
    }
 
    public void add(Statistics statistics) {
-      String serialized = serialize(statistics);
+      String serialized = serializer.serialize(statistics);
       Item item = new Item().withPrimaryKey(HASH_KEY_NAME, statistics.getName(),
             RANGE_KEY_NAME, statistics.getDay()).withString(VALUE, serialized);
       table.putItem(item);
@@ -33,14 +35,7 @@ public class StatisticsRepository {
    public Statistics get(String name, Date day) {
       Item item = table.getItem(HASH_KEY_NAME, name,
             RANGE_KEY_NAME, day);
-      return deserialize(item.getString(VALUE));
-   }
-
-   private String serialize(Statistics statistics) {
-      return null;
-   }
-
-   private Statistics deserialize(String serialized) {
-      return null;
+      return serializer.deserialize(item.getString(VALUE));
    }
 }
+
